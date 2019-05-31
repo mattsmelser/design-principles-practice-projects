@@ -6,7 +6,8 @@ package model;
 public class Box {
 
     private int size;
-    private Book contents;
+    private StandardSizedBook standardSizedBookContents;
+    private OversizedBook oversizedBookContents;
 
     private static final String[] SIZES = {"none", "small", "medium", "large"};
     private static final double BASE_SHIPPING = 5.50;
@@ -23,11 +24,16 @@ public class Box {
         }
 
         // model.Box starts off empty
-        contents = null;
+        oversizedBookContents = null;
+        standardSizedBookContents = null;
     }
 
-    public void setContents(Book contents) {
-        this.contents = contents;
+    public void setContents(StandardSizedBook contents) {
+        this.standardSizedBookContents = contents;
+    }
+
+    public void setContents(OversizedBook contents) {
+        this.oversizedBookContents = contents;
     }
 
     // EFFECTS: returns the size of this box
@@ -38,8 +44,11 @@ public class Box {
     // EFFECTS: Calculates the shipping cost of this box, based on its size and contents
     public double calculateShipping() {
         double price = BASE_SHIPPING * size;
-        if (contents != null) {
-            price = price + contents.calculateShipping();
+        if (standardSizedBookContents != null) {
+            price = price + standardSizedBookContents.calculateShipping();
+        }
+        if (oversizedBookContents != null) {
+            price = price + oversizedBookContents.calculateShipping();
         }
         return price;
     }

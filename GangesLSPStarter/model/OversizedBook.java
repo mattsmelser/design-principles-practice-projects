@@ -1,17 +1,26 @@
 package model;
 
+import java.awt.print.Book;
+
 /**
  * A book that is much larger than standard sized books, e.g., an encyclopedia or an atlas
  */
 public class OversizedBook extends Book {
 
+    private String title;
+    private double price;
+    private Box box;
+
     private double shippingMultiplier;
+    private static final double MAX_EXPECTED_SHIPPING = 23.00;
 
     private static final double BASE_SHIPPING = 5.00;
     private static final String MIN_SIZE = "large";
 
     public OversizedBook(String title, double price) {
-        super(title, price);
+        this.title = title;
+        this.price = price;
+        this.box = null;
 
         // More expensive books should have a higher shipping multiplier
         if (price > 9.50) {
@@ -25,7 +34,6 @@ public class OversizedBook extends Book {
     // MODIFIES: this
     // EFFECTS:  If the book fits in the given box, then the two are associated
     //          (the book is packaged); otherwise return null.
-    @Override
     public Box packageBook(Box b) {
         if (b.getSize().equals("large")) {
             System.out.println("The large box is big enough for this oversized book.");
@@ -37,14 +45,23 @@ public class OversizedBook extends Book {
         return b;
     }
 
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setBox(Box box) {
+        this.box = box;
+    }
+
     // EFFECTS: Returns the shipping cost for this book, which is a base rate times a multiplier based on the book price.
-    @Override
+
     public double calculateShipping() {
         return BASE_SHIPPING * shippingMultiplier;
     }
 
     // EFFECTS: returns the minimum size box required to package this book
-    @Override
+
     public String getMinBoxSize() {
         System.out.println("An oversized book can only fit in a large box.");
         return MIN_SIZE;
